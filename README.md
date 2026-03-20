@@ -213,7 +213,7 @@ FIM is a core component of **PCI-DSS**, **HIPAA**, and **ISO 27001** compliance 
 
 ## 👤 Author
 
-**[Your Name]** — Cybersecurity Student
+**[Kuldeep trapasiya]** — Cybersecurity Student
 
 - LinkedIn: [linkedin.com/in/kuldeep-trapasiya-6474t06](https://www.linkedin.com/in/kuldeep-trapasiya-6474t06/)
 - GitHub: [@Kuldeep6474](https://github.com/Kuldeep6474)
