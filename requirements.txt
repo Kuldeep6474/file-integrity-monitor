@@ -1,0 +1,13 @@
+# File Integrity Monitor — Python Dependencies
+# Install with: pip install -r requirements.txt
+#
+# This project uses ONLY Python standard library modules.
+# No external packages are required!
+#
+# Standard library modules used:
+#   os, sys, json, time, hashlib, logging, argparse,
+#   datetime, platform, pathlib, typing, unittest
+
+# Optional — for enhanced output (uncomment to use)
+# colorama==0.4.6      # colored terminal output on Windows
+# rich==13.7.0         # beautiful formatted terminal output

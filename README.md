@@ -1,165 +1,229 @@
-# 🔐 File Integrity Monitor (FIM)
+# 🛡️ File Integrity Monitor (FIM)
 
-> A Python-based cybersecurity tool that monitors files using **SHA-256 hashing** to detect unauthorized changes, deletions, or additions in real time.
+> A professional-grade cybersecurity tool that detects unauthorized file changes using SHA-256 cryptographic hashing — built for educational purposes and system security monitoring.
 
----
-
-## 👨‍💻 About the Developer
-
-**Kuldeep** — B.Sc Cyber Security Student  
-🔐 Ethical Hacking & Network Security Enthusiast  
-🛠️ Learning Kali Linux • Metasploit • Wireshark • Python
+![Python](https://img.shields.io/badge/Python-3.8+-blue?style=flat-square&logo=python)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
+![No Dependencies](https://img.shields.io/badge/Dependencies-None-orange?style=flat-square)
 
 ---
 
-## 📌 What is File Integrity Monitor?
+## ⚠️ Disclaimer
 
-A **File Integrity Monitor (FIM)** is a cybersecurity tool that saves the **"digital fingerprint" (hash)** of your files and alerts you whenever a file is:
-
-- 📝 **Modified** — content changed
-- ❌ **Deleted** — file removed
-- ➕ **Added** — new unknown file appeared
-
-> 💡 **Real-life analogy:** Imagine taking a photo of your bank locker key. Next day you compare the key with the photo — if it looks different, someone changed it! FIM does exactly this with your files.
+> This tool is built for **educational purposes** and **legitimate system security monitoring only**.
+> Use only on systems **you own** or have **explicit written permission** to monitor.
+> The author assumes no liability for misuse.
 
 ---
 
-## 🧠 How It Works — SHA-256 Hashing
+## 📖 About
 
-The heart of this tool is **SHA-256 Hashing**.
+**File Integrity Monitor (FIM)** is a Python cybersecurity tool inspired by enterprise tools like **Tripwire** and **AIDE**. It creates a cryptographic baseline of your files using SHA-256 hashing and alerts you whenever any file is:
 
-| Concept | Details |
-|--------|---------|
-| SHA | Secure Hash Algorithm |
-| Output | Always exactly **64 characters** |
-| Unique | Every file gets a unique hash |
-| One-way | Hash cannot be reversed |
+- 🚨 **Modified** — content tampered with
+- ⚠️ **Deleted** — file removed from the system
+- 🆕 **Added** — new unexpected file appeared
+
+This type of tool is used in real-world security operations to detect malware infections, insider threats, and unauthorized configuration changes.
+
+---
+
+## ✨ Features
+
+- ✅ SHA-256 cryptographic file hashing
+- ✅ Baseline creation with full directory scanning
+- ✅ One-time integrity check mode
+- ✅ Continuous watch mode with configurable intervals
+- ✅ Detailed JSON reports for audit trails
+- ✅ Full event logging to file
+- ✅ File metadata tracking (size, timestamps, permissions)
+- ✅ Zero external dependencies — pure Python stdlib
+- ✅ Works on Linux, Windows, and macOS
+- ✅ Full unit test suite included
+
+---
+
+## 📸 Sample Output
 
 ```
-Original File  →  SHA-256  →  a3f5c7d8e9b1...  (64 char hash)
-Modified File  →  SHA-256  →  z9x8y7w6v5u4...  (completely different!)
+╔══════════════════════════════════════════════════════════╗
+║   File Integrity Monitor   Version 1.0.0                 ║
+╚══════════════════════════════════════════════════════════╝
+
+2024-01-15 10:32:01  [INFO]    Creating baseline for: ./test_files
+2024-01-15 10:32:01  [INFO]    Baseline created: 5 files hashed
+2024-01-15 10:32:01  [INFO]    Saved to: baseline.json
+
+──────────────────────────────────────────────────────────
+INTEGRITY CHECK RESULTS
+Time   : 2024-01-15T10:35:22
+Target : ./test_files
+──────────────────────────────────────────────────────────
+  Total files checked : 5
+  ✅ Unchanged        : 3
+  🆕 New files        : 1
+  ⚠️  Deleted         : 0
+  🚨 Modified         : 1
+──────────────────────────────────────────────────────────
+  STATUS: 🚨  ALERT — 1 suspicious change(s) detected!
+
+  MODIFIED FILES (possible tampering):
+    → /home/user/test_files/config.txt
 ```
 
-If hash changes → **File was tampered!** 🚨
-
 ---
 
-## ⚙️ Tool Modes
+## ⚙️ Installation
 
-| Mode | Description |
-|------|-------------|
-| 🔵 Baseline | Scan and save original file hashes |
-| 🟢 Monitor | Compare current files with saved hashes |
-| 🔴 Alert | Show which files were changed/deleted/added |
-| 📄 Report | Export results to JSON report |
+### Requirements
+- Python 3.8 or higher
+- No external packages needed!
 
----
+### Clone the repository
 
-## 🛠️ Requirements
-
-- Python 3.x (No external libraries needed!)
-- Only uses **Python Standard Library**:
-  - `hashlib` — for SHA-256 hashing
-  - `os` — for file system access
-  - `json` — for saving/loading reports
-  - `datetime` — for timestamps
-
----
-
-## 🚀 How to Use This Project
-
-### Step 1 — Clone the Repository
 ```bash
-git clone https://github.com/YourUsername/file-integrity-monitor.git
+git clone https://github.com/Kuldeep6474/file-integrity-monitor.git
 cd file-integrity-monitor
 ```
 
-### Step 2 — Run the Tool
+---
+
+## 🚀 Usage
+
+### Step 1 — Create a baseline (do this when files are SAFE)
+
 ```bash
-python fim.py
+python fim.py --init --path ./folder_to_monitor
 ```
 
-### Step 3 — Create Baseline (First Time)
-```bash
-python fim.py --baseline /path/to/folder
-```
-This scans the folder and saves all file hashes.
+### Step 2 — Run an integrity check
 
-### Step 4 — Monitor Files
 ```bash
-python fim.py --monitor /path/to/folder
+python fim.py --check --path ./folder_to_monitor
 ```
-This compares current files with the saved baseline.
 
-### Step 5 — View Report
+### Step 3 — Continuous monitoring (every 30 seconds)
+
+```bash
+python fim.py --watch --path ./folder_to_monitor --interval 30
+```
+
+### View the last report
+
 ```bash
 python fim.py --report
 ```
-Opens the JSON report showing all changes detected.
 
----
-
-## 📊 Sample Output
+### All available options
 
 ```
-[✅] clean       →  passwords.txt      (No changes)
-[🚨] MODIFIED    →  config.sys         (Hash mismatch!)
-[❌] DELETED     →  secret.txt         (File missing!)
-[➕] NEW FILE    →  malware.exe        (Unknown file added!)
+usage: fim.py [-h] (--init | --check | --watch | --report)
+              [--path PATH] [--interval INTERVAL]
+
+options:
+  --init              Create a new baseline
+  --check             Run a one-time integrity check
+  --watch             Start continuous real-time monitoring
+  --report            Display the last saved report
+  --path PATH         Directory to monitor (default: .)
+  --interval INT      Seconds between checks in watch mode (default: 60)
+  --version           Show version number
 ```
 
 ---
 
-## 🌍 Real World Use Cases
+## 🗂️ Project Structure
 
-This tool is similar to enterprise-level FIM tools used in real industry:
-
-| This Project | Enterprise Tool | Used By |
-|-------------|----------------|---------|
-| `fim.py` | Tripwire | Banks, Hospitals |
-| `fim.py` | AIDE | Linux Servers |
-| `fim.py` | OSSEC | SOC Teams |
-| `fim.py` | Wazuh | Cloud Security |
-
-> ✅ FIM is required by **PCI-DSS**, **HIPAA**, and **ISO 27001** compliance standards — used in real security jobs!
-
----
-
-## 🔒 Security Concepts Covered
-
-- **Attacker View:** Hackers modify system files first — install malware, create backdoors, delete logs. FIM detects this.
-- **Defender View:** Security engineers check FIM reports daily. Unexpected changes = start incident response.
-- **Evidence:** JSON report can be used as **proof in court** for cybercrime cases.
-
----
-
-## ⚠️ Limitations
-
-- ✅ Detects file changes
-- ❌ Does NOT prevent changes (detection only)
-
-### 🚀 Future Improvements
-- [ ] Email alerts on detection
-- [ ] Telegram bot notifications
-- [ ] Database logging
-- [ ] Auto quarantine suspicious files
-- [ ] Dashboard UI
+```
+file-integrity-monitor/
+│
+├── fim.py                  ← Main program
+├── requirements.txt        ← No external deps needed
+├── README.md               ← This file
+├── LICENSE                 ← MIT License
+│
+├── baseline.json           ← Created when you run --init
+│
+├── logs/
+│   └── fim.log             ← Event log (auto-created)
+│
+├── reports/
+│   └── report.json         ← Latest check report (auto-created)
+│
+└── tests/
+    └── test_fim.py         ← Unit tests
+```
 
 ---
 
-## 📚 Skills Demonstrated
+## 🧠 How It Works
 
-> After building this project you can confidently say in interviews:
-> **"I have implemented cryptographic hashing (SHA-256) for tamper detection."** 💪
+1. **Baseline Phase** — FIM scans every file in the target directory and computes its SHA-256 hash. These hashes are stored in `baseline.json`. This snapshot represents the "trusted state."
 
-Useful for: `CCNA Security` • `CEH Exam` • `Cybersecurity Interviews`
+2. **Check Phase** — FIM rescans every file and recomputes hashes. It compares each new hash against the stored baseline.
+
+3. **Detection** — Any file whose hash has changed is flagged as **MODIFIED**. Missing files are **DELETED**. New files not in the baseline are **NEW**.
+
+4. **Reporting** — All events are logged to `logs/fim.log` and a JSON report is written to `reports/report.json`.
+
+> **Why SHA-256?** It's a cryptographic hash — changing even one byte of a file produces a completely different 64-character hash. This makes it impossible for an attacker to modify a file without detection.
+
+---
+
+## 🧪 Running Tests
+
+```bash
+python tests/test_fim.py
+```
+
+Expected output:
+```
+Running FIM Test Suite...
+
+test_clean_result ... ok
+test_create_baseline ... ok
+test_detect_deleted_file ... ok
+test_detect_modified_file ... ok
+test_detect_new_file ... ok
+test_sha256_consistent ... ok
+test_sha256_different_files ... ok
+test_sha256_nonexistent_file ... ok
+
+Ran 8 tests in 0.042s — OK
+```
+
+---
+
+## 🔐 Real-World Security Context
+
+This tool is similar to how enterprise security tools work:
+
+| Tool | What it does |
+|------|-------------|
+| **Tripwire** | Enterprise FIM used in banks and hospitals |
+| **AIDE** | Linux open-source FIM |
+| **OSSEC** | Open-source HIDS with file integrity checking |
+| **This FIM** | Educational Python implementation of the same concept |
+
+FIM is a core component of **PCI-DSS**, **HIPAA**, and **ISO 27001** compliance — making this a highly relevant skill for cybersecurity careers.
+
+---
+
+## 👤 Author
+
+**[Your Name]** — Cybersecurity Student
+
+- LinkedIn: [linkedin.com/in/kuldeep-trapasiya-6474t06](https://www.linkedin.com/in/kuldeep-trapasiya-6474t06/)
+- GitHub: [@Kuldeep6474](https://github.com/Kuldeep6474)
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
+MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
-⭐ **If you found this useful, give it a star!**
+⭐ If this project helped you learn, please give it a star!
